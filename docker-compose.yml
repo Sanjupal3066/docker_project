@@ -1,0 +1,30 @@
+version : '3'
+services:
+  mysql_test1:
+    image: mysql:5.7
+    volumes:
+      - "mysql_storage_new2:/var/lib/mysql"
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: project
+      MYSQL_USER: sanju
+      MYSQL_PASSWORD: redhat
+      MYSQL_DATABASE: myDB
+  wordpress_test1:
+    image: wordpress:5.1.1-php7.3-apache
+    volumes:
+      - "wordpress_storage_new2:/var/www/html"
+    restart: always
+    depends_on:
+      - mysql_test1
+    ports:
+      - 8081:80
+    environment:
+      WORDPRESS_DB_HOST: mysql_test1
+      WORDPRESS_DB_USER: sanju
+      WORDPRESS_DB_PASSWORD: redhat
+      WORDPRESS_DB_NAME: myDB
+
+volumes:
+  wordpress_storage_new2:
+  mysql_storage_new2:
